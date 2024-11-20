@@ -1,114 +1,56 @@
-<!DOCTYPE html>  
-<html>  
-<head>  
-    <title>FastAPI + React + ChatGPT</title>  
-    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>  
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>  
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>  
-    <style>  
-        .container {  
-            max-width: 800px;  
-            margin: 0 auto;  
-            padding: 20px;  
-            font-family: Arial, sans-serif;  
-        }  
-        .message {  
-            padding: 10px;  
-            margin: 10px 0;  
-            border: 1px solid #ddd;  
-            border-radius: 4px;  
-        }  
-        .input-area {  
-            margin: 20px 0;  
-        }  
-        .input-field {  
-            width: 100%;  
-            padding: 10px;  
-            margin-bottom: 10px;  
-            border: 1px solid #ddd;  
-            border-radius: 4px;  
-        }  
-        button {  
-            padding: 10px 20px;  
-            background-color: #0066cc;  
-            color: white;  
-            border: none;  
-            border-radius: 4px;  
-            cursor: pointer;  
-        }  
-        button:disabled {  
-            background-color: #cccccc;  
-        }        
-        .error {  
-            color: red;  
-            margin: 10px 0;  
-        }  
-    </style>  
-</head>  
-<body>  
-    <div id="root"></div>  
+<html></html>
+    <head>
+        <title>나의 첫 웹페이지</title>
+    </head>
+    <style>
+            #title1 {  
+                color: #007bff; /* 파란색 */  
+                font-size: 32px; /* 글자 크기 */  
+                font-weight: bold; /* 굵은 글씨 */  
+                text-align: center; /* 가운데 정렬 */  
+                margin-top: 20px; /* 위쪽 여백 */  
+                margin-bottom: 10px; /* 아래쪽 여백 */  
+            }  
 
-    <script type="text/babel">  
-        function App() {  
-            const [message, setMessage] = React.useState('');  
-            const [userInput, setUserInput] = React.useState('');  
-            const [isLoading, setIsLoading] = React.useState(false);  
-            const [error, setError] = React.useState('');  
+            #p3 {
+                background-color:black;
+                color:#960819;
+            }
 
-            const chatWithGPT = async () => {  
-                setIsLoading(true);  
-                setError('');  
-                try {  
-                    const response = await fetch('/api/chat', {  
-                        method: 'POST',  
-                        headers: {  
-                            'Content-Type': 'application/json',  
-                        },  
-                        body: JSON.stringify({ message: userInput }),  
-                    });  
-                    const data = await response.json();  
-                    if (data.status === 'error') {  
-                        throw new Error(data.message);  
-                    }  
-                    setMessage(data.message);  
-                } catch (error) {  
-                    setError(error.message);  
-                }  
-                setIsLoading(false);  
-            };              
-            return (  
-                <div className="container">  
-                    <h1>ChatGPT API 테스트</h1>  
-                    <div className="input-area">  
-                        <textarea  
-                            className="input-field"  
-                            value={userInput}  
-                            onChange={(e) => setUserInput(e.target.value)}  
-                            placeholder="메시지를 입력하세요..."  
-                            rows="4"  
-                        />  
-                        <button   
-                            onClick={chatWithGPT}  
-                            disabled={isLoading || !userInput}  
-                        >  
-                            {isLoading ? '처리 중...' : '메시지 전송'}  
-                        </button>  
-                    </div>  
-                    {error && <div className="error">{error}</div>}  
-                    {message && (  
-                        <div className="message">  
-                            <h3>ChatGPT 응답:</h3>  
-                            <p>{message}</p>  
-                        </div>  
-                    )}  
-                </div>  
-            );  
-        }  
+            p {
+                background-color:black;
+                color:#eff7f7;
+            }
 
-        ReactDOM.render(  
-            <App />,  
-            document.getElementById('root')  
-        );  
-    </script>  
-</body>  
+            .imgs p {
+                background-color:black;
+                color:#eff7f7;
+            }
+
+    </style>
+    <body>
+        <h1 id="title1"> 나의 첫번째 웹 페이지 </h1>
+        <h4> HTML의 기본 내용을 실습해 봅니다. </h4>
+        <div class="ptags">
+            <p style="background-color:black;color:#eff7f7;"> 단락1 </p>
+            <p > 단락2 </p>
+            <p id="p3"> 단락3 </p>
+        </div>
+        <div class="ptags"></div>
+            <p style="background-color:black;color:#eff7f7;"> 단락1 </p>
+            <p > 단락2 </p>
+            <p id="p3"> 단락3 </p>
+        </div>
+        <div>
+            <a href="https://www.naver.com/">naver</a><br>
+            <a href="https://www.google.com/?gws_rd=ssl">google</a><br>
+            <a href="https://openai.com/chatgpt/" target="_blank">chatgpt</a><br>
+        </div>
+
+        <div class="imgs">
+            <img src="img01.jpg" title="test" width="300" height="300">
+            사진: charlesdeluvio 
+            <p>이미지의 p태그</p>
+        </div>
+    </body>
 </html>
