@@ -1,0 +1,114 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+    <title>FastAPI + React + ChatGPT</title>  
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>  
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>  
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>  
+    <style>  
+        .container {  
+            max-width: 800px;  
+            margin: 0 auto;  
+            padding: 20px;  
+            font-family: Arial, sans-serif;  
+        }  
+        .message {  
+            padding: 10px;  
+            margin: 10px 0;  
+            border: 1px solid #ddd;  
+            border-radius: 4px;  
+        }  
+        .input-area {  
+            margin: 20px 0;  
+        }  
+        .input-field {  
+            width: 100%;  
+            padding: 10px;  
+            margin-bottom: 10px;  
+            border: 1px solid #ddd;  
+            border-radius: 4px;  
+        }  
+        button {  
+            padding: 10px 20px;  
+            background-color: #0066cc;  
+            color: white;  
+            border: none;  
+            border-radius: 4px;  
+            cursor: pointer;  
+        }  
+        button:disabled {  
+            background-color: #cccccc;  
+        }        
+        .error {  
+            color: red;  
+            margin: 10px 0;  
+        }  
+    </style>  
+</head>  
+<body>  
+    <div id="root"></div>  
+
+    <script type="text/babel">  
+        function App() {  
+            const [message, setMessage] = React.useState('');  
+            const [userInput, setUserInput] = React.useState('');  
+            const [isLoading, setIsLoading] = React.useState(false);  
+            const [error, setError] = React.useState('');  
+
+            const chatWithGPT = async () => {  
+                setIsLoading(true);  
+                setError('');  
+                try {  
+                    const response = await fetch('/api/chat', {  
+                        method: 'POST',  
+                        headers: {  
+                            'Content-Type': 'application/json',  
+                        },  
+                        body: JSON.stringify({ message: userInput }),  
+                    });  
+                    const data = await response.json();  
+                    if (data.status === 'error') {  
+                        throw new Error(data.message);  
+                    }  
+                    setMessage(data.message);  
+                } catch (error) {  
+                    setError(error.message);  
+                }  
+                setIsLoading(false);  
+            };              
+            return (  
+                <div className="container">  
+                    <h1>ChatGPT API 테스트</h1>  
+                    <div className="input-area">  
+                        <textarea  
+                            className="input-field"  
+                            value={userInput}  
+                            onChange={(e) => setUserInput(e.target.value)}  
+                            placeholder="메시지를 입력하세요..."  
+                            rows="4"  
+                        />  
+                        <button   
+                            onClick={chatWithGPT}  
+                            disabled={isLoading || !userInput}  
+                        >  
+                            {isLoading ? '처리 중...' : '메시지 전송'}  
+                        </button>  
+                    </div>  
+                    {error && <div className="error">{error}</div>}  
+                    {message && (  
+                        <div className="message">  
+                            <h3>ChatGPT 응답:</h3>  
+                            <p>{message}</p>  
+                        </div>  
+                    )}  
+                </div>  
+            );  
+        }  
+
+        ReactDOM.render(  
+            <App />,  
+            document.getElementById('root')  
+        );  
+    </script>  
+</body>  
+</html>
